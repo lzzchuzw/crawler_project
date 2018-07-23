@@ -9,7 +9,7 @@
   <dependencies>
 		<dependency>
 			<groupId>com.manyiaby</groupId>
-			<artifactId>virtual-coin-commons</artifactId>
+			<artifactId>crawler-commons</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

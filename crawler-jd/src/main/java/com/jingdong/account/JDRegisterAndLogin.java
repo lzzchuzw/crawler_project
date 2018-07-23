@@ -9,12 +9,10 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 
-
 import com.utils.json.JsonUtils;
-//import com.utils.jsoup.JSoupHandler;
+import com.utils.jsoup.JSoupHandler;
 import com.utils.map.MapUtils;
 import com.utils.request.HttpClientRequestHandler;
-
 import com.utils.request.ResponseRet;
 
 /**
@@ -48,7 +46,7 @@ public class JDRegisterAndLogin {
 		// 发送请求
 		ResponseRet responseRet = requestHandler.GetHttpResponse_generalMethod(requestHandler, "visitJDLoginHomePage");
 		// 解析获取form表达里的input标签
-		Map<String, Object> visitJDLoginHomePageMap = JsoupHandler.parserResponseRet_visitJDLoginHomePage(responseRet);
+		Map<String, Object> visitJDLoginHomePageMap = JSoupHandler.parserResponseRet_visitJDLoginHomePage(responseRet);
 		MapUtils.traversalMap(visitJDLoginHomePageMap);
 		// 保存到requestHandler中
 		requestHandler.getParseMap().put("visitJDLoginHomePageMap", visitJDLoginHomePageMap);
