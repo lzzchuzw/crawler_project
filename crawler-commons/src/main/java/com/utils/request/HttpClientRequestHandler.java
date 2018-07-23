@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.ProxySelector;
 import java.util.ArrayList;
@@ -23,8 +24,10 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.config.ConnectionConfig;
 import org.apache.http.cookie.Cookie;
@@ -34,11 +37,14 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.impl.conn.SystemDefaultRoutePlanner;
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 
 
@@ -264,6 +270,39 @@ public class HttpClientRequestHandler {
 			System.out.println("i = " + i + "----bnvp.name = " + bnvp.getName() + "---bnvp.value = " + bnvp.getValue());
 		}
 		return pairList;
+	}
+	
+	/**
+	 * 初始化一些京东商城特有的Cookie
+	 * @param requestHandler
+	 */
+	public void initJDSpecialCookies(HttpClientRequestHandler requestHandler) {
+		/*requestHeaderParam.put("Cookie", 
+		 *      "__jda=122270672.15154973380332050715474.1515497338.1515497338.1515497338.1;" + 
+				"__jdb=122270672.1.15154973380332050715474|1.1515497338; " + 
+				"__jdc=122270672; " + 
+				"__jdv=122270672|direct|-|none|-|1515497338036;" + 
+				"_jrda=1; " + 
+				"_jrdb=1515497338152; " + 
+				"__jdu=15154973380332050715474; " + 
+				"wlfstk_smdl=d49a24c8oeaav8kkrxbdh3o5ftl1r5n5; " + 
+				"3AB9D23F7A4B3C9B=IRNZB6RPCFBN64NU657CNVAW4BGI3R3UZCEFZ7P2TW233YCKGDITAR7O7LUUT5S46CRDX5T737EDK5RO7F34F5ECD4");*/
+		HttpClientContext context = requestHandler.getContext();
+		CookieStore cookieStore = context.getCookieStore();
+		if(null==cookieStore) {
+			cookieStore = new BasicCookieStore();
+		}
+		cookieStore.addCookie(generateBasicClientCookie("__jda", "122270672.15154973380332050715474.1515497338.1515497338.1515497338.1"));
+		cookieStore.addCookie(generateBasicClientCookie("__jdb", "122270672.1.15154973380332050715474|1.1515497338"));
+		cookieStore.addCookie(generateBasicClientCookie("__jdc", "122270672"));
+		cookieStore.addCookie(generateBasicClientCookie("__jdv", "122270672|direct|-|none|-|1515497338036"));
+		cookieStore.addCookie(generateBasicClientCookie("__jdu", "15154973380332050715474"));
+		cookieStore.addCookie(generateBasicClientCookie("_jrda", "1"));
+		cookieStore.addCookie(generateBasicClientCookie("_jrdb", "1515497338152"));
+		cookieStore.addCookie(generateBasicClientCookie("wlfstk_smdl", "d49a24c8oeaav8kkrxbdh3o5ftl1r5n5"));
+		cookieStore.addCookie(generateBasicClientCookie("PCSYCityID", "1"));
+		cookieStore.addCookie(generateBasicClientCookie("3AB9D23F7A4B3C9B", "IRNZB6RPCFBN64NU657CNVAW4BGI3R3UZCEFZ7P2TW233YCKGDITAR7O7LUUT5S46CRDX5T737EDK5RO7F34F5ECD4"));
+		context.setCookieStore(cookieStore);
 	}
     
 	/**
@@ -649,6 +688,79 @@ public class HttpClientRequestHandler {
 		return locationUrl;
 	}
 	/**
+	 * 
+	* @Title: httpClientRequest
+	* @Description: 通用访问方法  在post方法时可能会携带Header或者Entity
+	* 携带Header类似于访问时  https://www.baidu.com?a=1&b=2
+	* 携带Entity是post请求特有的,提交表单数据
+	* @param requestHandler
+	* @param methodType
+	* @param url
+	* @param headerMap
+	* @param entityMap
+	* @param saveFileName
+	* @return String
+	* @author leisure
+	* @date 2018年7月4日下午3:56:24
+	 */
+	public static String httpClientRequest(HttpClientRequestHandler requestHandler, String methodType, String url,
+			                               Map<String,String> headerMap,Map<String,String> entityMap,
+			                               String fileDirPath,String saveFileName) {
+		// 获取responseString
+		String responseString = null;
+		if (null == requestHandler || null == methodType || null == url ) {
+			return responseString;
+		}
+		RequestBuilder requestBuilder = null;
+
+		// 设置访问的Header
+		if("GET".equals(methodType)) {
+			System.out.println("get method");
+		   requestBuilder = RequestBuilder.get().setUri(url);
+		   HttpRequestHeaderGenerator.setGetMarketInfoeaders(requestBuilder, url);
+		   
+		}else {//POST method
+			System.out.println("post method");
+			requestBuilder = RequestBuilder.post().setUri(url);
+			HttpRequestHeaderGenerator.setPostMarketInfoHeaders(requestBuilder, url);
+		}
+		//携带表单数据
+		if(null!=entityMap && 0!=entityMap.size()) {
+			try {
+				requestBuilder.setEntity(new UrlEncodedFormEntity(
+						HttpClientRequestHandler.generateListNameValuePairs(entityMap)));
+			} catch (UnsupportedEncodingException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+		// 生成访问方法
+		HttpUriRequest requestMethod = requestBuilder.build();
+		
+		//携带Headers
+		if(null!=headerMap&&0!=headerMap.size()) {
+		    Header[] header = HttpClientRequestHandler.translateMapToHeaderArray(headerMap);
+		    requestMethod.setHeaders(header);
+		   
+		}
+		// 保存访问方法
+		requestHandler.setRequestMethod(requestMethod);
+		// 发送请求
+		ResponseRet responseRet = requestHandler.GetHttpResponse_parseMarketInfo(requestHandler, fileDirPath,saveFileName);
+		if (null == responseRet || null == responseRet.getRetContent()) {
+			return responseString;
+		}
+		try {
+			responseString = new String(responseRet.getRetContent(), "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			// log.error("parse responseString error");
+			e.printStackTrace();
+		}
+		return responseString;
+	}
+
+	/**
 	 * 处理Http请求的统一方法
 	 * @param requestHandler
 	 * @param fileNamePrefix 生成保存记录的文件名时需要用到的
@@ -966,6 +1078,16 @@ public class HttpClientRequestHandler {
 		HttpClientContext context = requestHandler.getContext();
 		context.setRequestConfig(requestConfig);
 		return context;
+	}
+	
+	public Cookie generateBasicClientCookie(String name,String value) {
+		BasicClientCookie cookie = new BasicClientCookie(name,value);
+		cookie.setVersion(0);
+		cookie.setDomain("jd.com");
+		cookie.setPath("/");
+		cookie.setExpiryDate(null);
+		//cookie.setAttribute(ClientCookie.DOMAIN_ATTR, "/");
+		return cookie;
 	}
 
 	/********************************************************/
