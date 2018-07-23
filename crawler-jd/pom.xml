@@ -6,6 +6,13 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>crawler-jd</artifactId>
+  <dependencies>
+		<dependency>
+			<groupId>com.manyiaby</groupId>
+			<artifactId>virtual-coin-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
   <name>jd</name>
   <description>京东抢购</description>
 </project>
