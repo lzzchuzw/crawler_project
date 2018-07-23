@@ -72,5 +72,76 @@ public class JSoupHandler {
 		
 		return personalCenterHomePageMap;
 	}
+	/**
+	 * 解析访问京东登录主页面(账号密码登录部分)的页面
+	 * @param responseRet
+	 * @return  登录提交Form表单的input标签 和 获取验证码的链接
+	 */
+	public static Map<String,Object> parserResponseRet_visitJDLoginHomePage(final ResponseRet responseRet){
+		Map<String,Object> visitJDLoginHomePageMap = new HashMap<String,Object>();
+		if(null==responseRet || null==responseRet.getRetContent()) {
+			return visitJDLoginHomePageMap;
+		}
+	    String htmlString = null;
+		Document doc = null;
+		try {
+			htmlString = new String(responseRet.getRetContent(),responseRet.getContentEncoding());
+			doc = Jsoup.parse(htmlString,responseRet.getContentEncoding());
+		} catch (UnsupportedEncodingException e1) {
+			
+			e1.printStackTrace();
+		}
+		if(null!=doc) {
+			//读出Input标签
+			Elements inputElements = doc.getElementsByTag("input");
+			System.out.println("inputElements.size = "+inputElements.size());
+			//System.out.println(htmlString);
+			for(Element e:inputElements) {
+				System.out.println("e.name = "+e.attr("name")+"-----e.val() = "+e.val());
+				visitJDLoginHomePageMap.put(e.attr("name"), e.val());
+			}
+			Element authCode = doc.getElementById("JD_Verification1");
+			//String authCodeUrl = "https:"+authCode.attr("src2");
+			String authCodeUrl = authCode.attr("onclick");
+			authCodeUrl = authCodeUrl.substring(authCodeUrl.indexOf("authcode"), authCodeUrl.lastIndexOf("=")+1);
+			//authCodeUrl = "https://"+authCodeUrl+"&yys="+System.currentTimeMillis();
+			authCodeUrl = "https://"+authCodeUrl+"&yys=";
+			System.out.println("authCodeUrl = "+authCodeUrl+System.currentTimeMillis());
+			visitJDLoginHomePageMap.put("authCodeUrl", authCodeUrl);
+		}
+		return visitJDLoginHomePageMap;
+	}
+	/**
+	 * 解析ResponseRet获取页面中的input标签内容并拼凑成Map<String,Object>
+	 * @param responseRet
+	 * @return
+	 */
+	public static Map<String,Object> parserResponseRet_generateMapByInput(final ResponseRet responseRet){
+		Map<String,Object> inputMap = new HashMap<String,Object>();
+		if(null==responseRet || null==responseRet.getRetContent()) {
+			return null;
+		}
+		String htmlString = null;
+		Document doc = null;
+		try {
+			htmlString = new String(responseRet.getRetContent(),responseRet.getContentEncoding());
+			doc = Jsoup.parse(htmlString,responseRet.getContentEncoding());
+		} catch (UnsupportedEncodingException e1) {
+			
+			e1.printStackTrace();
+		}
+		if(null!=doc) {
+			//读出Input标签
+			Elements inputElements = doc.getElementsByTag("input");
+			System.out.println("inputElements.size = "+inputElements.size());
+			//System.out.println(htmlString);
+			for(Element e:inputElements) {
+				System.out.println("e.name = "+e.attr("name")+"-----e.val() = "+e.val());
+				inputMap.put(e.attr("name"), e.val());
+			}
+		}
+		return inputMap;
+	}
+
 
 }
