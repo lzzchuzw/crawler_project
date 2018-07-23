@@ -5,11 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MapUtils {
-	public static Log log = LogFactory.getLog(MapUtils.class.getClass());
+	public static Logger log = LoggerFactory.getLogger(MapUtils.class.getClass());
 	
 	/**
 	 * 通用的遍历Map并输出Key和value

@@ -1,7 +1,7 @@
 package com.utils.json;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JacksonUtils {
 	
 	public static final  ObjectMapper objectMapper = new ObjectMapper(); 
-	private static Log logger = LogFactory.getLog(JacksonUtils.class);
+	private static Logger logger = LoggerFactory.getLogger(JacksonUtils.class);
 	
 	  public static String encode(Object obj) {
           try {

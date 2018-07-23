@@ -1,0 +1,17 @@
+server:
+  port: 7001
+
+
+spring:
+  application:
+    name: crawler-eureka-server
+
+eureka:
+  instance:
+    hostname: eureka7001.com
+  client:
+    register-with-eureka: false #自己不注册在eureka中
+    fetch-registry: false
+    service-url:
+      defaultZone: http://eureka7001.com:${server.port}/eureka/ # 暂时使用单机模式
+  

@@ -4,19 +4,19 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.transform.Transformers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.utils.hibernate.AnnotationHibernateUtil;
 import com.utils.hibernate.BaseEntity;
 import com.utils.reflect.ReflectUtils;
 
 public class BaseDao<T extends BaseEntity> implements IBaseDao<T> {
-	protected Log log = LogFactory.getLog(this.getClass());
+	protected Logger log = LoggerFactory.getLogger(this.getClass());
 	/**
 	 * 数据操作工厂SessionFactory
 	 */
