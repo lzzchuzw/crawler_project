@@ -9,6 +9,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 
+import com.jingdong.request.HttpRequestHeaderGenerator;
 import com.utils.json.JsonUtils;
 import com.utils.jsoup.JSoupHandler;
 import com.utils.map.MapUtils;
