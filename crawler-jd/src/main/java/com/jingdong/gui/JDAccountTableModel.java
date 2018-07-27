@@ -54,7 +54,7 @@ public class JDAccountTableModel extends AbstractTableModel{
 				rowData.add(index);//后面可以通过index取list中的某项JDAccountWrapper
 				rowData.add(jdAccount.getUserName());//登录名
 				rowData.add(jdAccount.getLoginPassWd());//登录密码
-				rowData.add("checkCode");//提示输入验证码
+				rowData.add(new String("checkCode"));//提示输入验证码
 				System.out.println("验证码路径: "+jdAccountWrapper.getRequestHandler().getAuthCodeImgPath());
 				rowData.add(ImageIconUtils.createImageIconByFilePath(jdAccountWrapper.getRequestHandler().getAuthCodeImgPath()));//本次登录的验证码
 				rowData.add(jdAccountWrapper.getAccountState());//账号登录状态	
@@ -101,7 +101,7 @@ public class JDAccountTableModel extends AbstractTableModel{
 	}
 	@Override
 	public void setValueAt(Object value, int row, int col) {
-	     data.get(row).set(col,data);
+	     data.get(row).set(col,value);
 	     fireTableCellUpdated(row, col);
 	}
 	/*
