@@ -61,6 +61,7 @@ public class HttpClientRequestHandler {
 	private HttpClient httpClient;
 	private HttpClientContext context;
 	private HttpUriRequest requestMethod;
+	private String authCodeImgPath;
 	private Map<String, ResponseRet> resonseRetMap;
 	private Map<String, Map<String, Object>> parseMap;
 	private Logger log = LoggerFactory.getLogger(this.getClass());
@@ -616,6 +617,7 @@ public class HttpClientRequestHandler {
 				}
 				responseRet.setRetContent(responseBody);
 				File file = new File(filePath + fileName);
+				responseRet.setFilePath(filePath + fileName);
 				BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
 				EntityUtils.consume(entity);
 				bos.write(responseBody);
@@ -1130,6 +1132,12 @@ public class HttpClientRequestHandler {
 
 	public void setParseMap(Map<String, Map<String, Object>> parseMap) {
 		this.parseMap = parseMap;
+	}
+	public String getAuthCodeImgPath() {
+		return authCodeImgPath;
+	}
+	public void setAuthCodeImgPath(String authCodeImgPath) {
+		this.authCodeImgPath = authCodeImgPath;
 	}
 
 }

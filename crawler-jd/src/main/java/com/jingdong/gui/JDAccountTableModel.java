@@ -2,12 +2,15 @@ package com.jingdong.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
 import com.jingdong.account.JDAccount;
 import com.jingdong.account.JDAccountWrapper;
+import com.jingdong.account.JDRegisterAndLogin;
+import com.utils.map.MapUtils;
 
 public class JDAccountTableModel extends AbstractTableModel{
 	
@@ -40,14 +43,22 @@ public class JDAccountTableModel extends AbstractTableModel{
 		if(null!=jdAccountWrapperList && 0!=jdAccountWrapperList.size()) {
 			for(int index=0;index<jdAccountWrapperList.size();index++) {
 				JDAccountWrapper jdAccountWrapper = jdAccountWrapperList.get(index);
+				JDRegisterAndLogin jdRegisterAndLogin = new JDRegisterAndLogin();
+				Map<String, Object> visitJDLoginHomePageMap = jdRegisterAndLogin.visitJDLoginHomePage(jdAccountWrapper);
+				MapUtils.traversalMap(visitJDLoginHomePageMap);
+				//jdRegisterAndLogin.checkAuthCode(jdAccountWrapper);
+				jdRegisterAndLogin.fetchAuthCode(jdAccountWrapper);
+				
 				Vector<Object> rowData = new Vector<Object>();
 				JDAccount jdAccount = jdAccountWrapper.getJdAccount();
 				rowData.add(index);//后面可以通过index取list中的某项JDAccountWrapper
 				rowData.add(jdAccount.getUserName());//登录名
 				rowData.add(jdAccount.getLoginPassWd());//登录密码
 				rowData.add("checkCode");//提示输入验证码
-				rowData.add(null);//本次登录的验证码
-				rowData.add(jdAccountWrapper.getAccountState());//账号登录状态				
+				System.out.println("验证码路径: "+jdAccountWrapper.getRequestHandler().getAuthCodeImgPath());
+				rowData.add(ImageIconUtils.createImageIconByFilePath(jdAccountWrapper.getRequestHandler().getAuthCodeImgPath()));//本次登录的验证码
+				rowData.add(jdAccountWrapper.getAccountState());//账号登录状态	
+				data.add(rowData);
 			}
 		}
 	}
@@ -68,6 +79,8 @@ public class JDAccountTableModel extends AbstractTableModel{
 		this.columnNames.add("登录状态");
 		
 	}
+	
+	
 
 	@Override
 	public int getRowCount() {

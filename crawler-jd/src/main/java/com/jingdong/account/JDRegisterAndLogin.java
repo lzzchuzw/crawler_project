@@ -124,6 +124,7 @@ public class JDRegisterAndLogin {
 		// 发送请求
 		ResponseRet responseRet = requestHandler.GetHttpResponse_generalMethod(requestHandler, "fetchAuthCode");
 		// 获取到验证码图片,处理验证码图片
+		requestHandler.setAuthCodeImgPath(responseRet.getFilePath());
 	}
 
 	/**

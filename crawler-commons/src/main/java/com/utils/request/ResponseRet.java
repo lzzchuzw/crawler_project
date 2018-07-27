@@ -21,6 +21,7 @@ public class ResponseRet {
 	private Header[] responseHeaders;
 	private String locationUrl;
 	private List<Cookie> cookieList;
+	private String filePath;
 	
 	
 	public ResponseRet() {
@@ -113,6 +114,22 @@ public class ResponseRet {
 
 	public void setCookieList(List<Cookie> cookieList) {
 		this.cookieList = cookieList;
+	}
+
+
+
+
+
+	public String getFilePath() {
+		return filePath;
+	}
+
+
+
+
+
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
 	}
 
 	
