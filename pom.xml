@@ -121,5 +121,9 @@
 		<module>crawler-commons</module>
 		<module>crawler-jd</module>
 		<module>crawler-eureka-server</module>
+		<module>crawler-mi</module>
+		<module>crawler-tmall</module>
+		<module>crawler-suning</module>
+		<module>crawler-vmall</module>
 	</modules>
 </project>
