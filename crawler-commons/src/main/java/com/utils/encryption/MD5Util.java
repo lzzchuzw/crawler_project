@@ -99,4 +99,35 @@ public class MD5Util {
 		}
 		return "";
 	}
+	
+	/**
+	 * md5加密 32位大写加密
+	 * @param s
+	 * @param isUpperCase
+	 * @return
+	 */
+	public final static String EncodeMd5(String s,boolean isUpperCase) {
+		
+		
+	    char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9','A', 'B', 'C', 'D', 'E', 'F' };
+		
+		MessageDigest md5;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+			byte[] md5Password = md5.digest(s.getBytes());
+			int j = md5Password.length;
+			char str[] = new char[j * 2];
+			int k = 0;
+			for (int i = 0; i < j; i++) {
+				byte byte0 = md5Password[i];
+				str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+				str[k++] = hexDigits[byte0 & 0xf];
+			}
+			return new String(str);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 }
