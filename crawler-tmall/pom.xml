@@ -6,6 +6,23 @@
     <version>0.0.1</version>
   </parent>
   <artifactId>crawler-tmall</artifactId>
+   <dependencies>
+		<dependency>
+			<groupId>com.manyiaby</groupId>
+			<artifactId>crawler-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>log4j-over-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+  </dependencies>
   <name>tmall</name>
   <description>天猫</description>
 </project>
