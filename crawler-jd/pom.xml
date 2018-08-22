@@ -22,6 +22,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
   </dependencies>
   <name>jd</name>
   <description>京东抢购</description>
