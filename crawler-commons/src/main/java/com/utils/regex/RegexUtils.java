@@ -68,9 +68,9 @@ public class RegexUtils {
 			list.add(m.group());
 		}
 		//输出
-		/*for(String s:list) {
+		for(String s:list) {
 			System.out.println(s);
-		}*/
+		}
 		return list;
 	}
 	/**
