@@ -7,6 +7,8 @@ import org.apache.http.Header;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.message.BasicHeader;
 
+import com.utils.string.UrlParseUtils;
+
 /**
  * @author Leisure
  * @version 创建时间：2018年1月26日 下午12:46:39 类说明
@@ -471,6 +473,40 @@ public class HttpRequestHeaderGenerator {
 					"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36");
 		}
 	}
+	/**
+	 * 
+	* @Title: setFetchSlidingImageHeaders
+	* @Description: 设置京东登录获取滑动验证码图片的请求Header
+	* @param builder
+	* @param referer void
+	* @author leisure
+	* @date 2018年8月24日上午9:25:02
+	 */
+	public static void setFetchSlidingImageHeaders(final RequestBuilder builder,String referer) {
+		if (null != builder) {
+			builder.setHeader("Accept", "*/*");
+			builder.setHeader("Accept-Encoding", "gzip, deflate, br");
+			builder.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+			
+			builder.setHeader("Connection", "keep-alive");
+			
+			builder.setHeader("Host", "iv.jd.com");
+			
+			builder.setHeader("Referer", referer);
+			
+			builder.setHeader("User-Agent",
+					"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36");
+		}
+	}
+	
+	/*public static void setFetchSlidingImageHeaders(final RequestBuilder builder,String url) {
+		if(null!=builder && null!=url) {
+			Map<String,Object> map = UrlParseUtils.parseUrl(url);			
+			builder.setHeader(":authority", String.valueOf(map.get("host")));
+			builder.setHeader(":method", "GET");
+			
+		}
+	}*/
 	
 	/**
 	 * 将map转换为Header[]

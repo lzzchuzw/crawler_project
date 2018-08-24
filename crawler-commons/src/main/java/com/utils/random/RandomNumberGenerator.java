@@ -27,6 +27,25 @@ public class RandomNumberGenerator {
 		}
 		return sb.toString();
 	}
+	/**
+	 * 
+	* @Title: generateRandomStringBeginWithZero
+	* @Description: 随机生成以0开头的长度为lenth的随机数字串
+	* @param lenth
+	* @return String
+	* @author leisure
+	* @date 2018年8月24日上午9:15:33
+	 */
+	public static String generateRandomStringBeginWithZero(int lenth) {
+		StringBuffer sb = new StringBuffer(lenth)
+			                  .append((char) ('0' + 0));
+		long times = System.currentTimeMillis();
+		Random r = new Random(times);
+		for(int index=1;index<lenth;index++) {
+			sb.append((char) ('0' + r.nextInt(10)));
+		}
+		return new String(sb);
+	}
 
 	/**
 	 * 产生指定总长度和整形部分长度的随机double数

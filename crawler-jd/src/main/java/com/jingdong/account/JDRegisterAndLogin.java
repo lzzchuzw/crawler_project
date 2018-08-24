@@ -1,8 +1,13 @@
 package com.jingdong.account;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Base64;
+import java.util.Date;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -13,6 +18,8 @@ import com.jingdong.request.HttpRequestHeaderGenerator;
 import com.utils.json.JsonUtils;
 import com.utils.jsoup.JSoupHandler;
 import com.utils.map.MapUtils;
+import com.utils.random.RandomNumberGenerator;
+import com.utils.regex.RegexUtils;
 import com.utils.request.HttpClientRequestHandler;
 import com.utils.request.ResponseRet;
 
@@ -25,6 +32,8 @@ import com.utils.request.ResponseRet;
 public class JDRegisterAndLogin {
 
 	private Log log = LogFactory.getLog(this.getClass());
+	
+	public static final String DIRECTORY_PATH = "E:/WebLogs/loginJD/slidingImg/";
 
 	/**
 	 * 访问京东登录主页--账号登录部分 获取cookie和登录提交的Form表单的input
@@ -352,8 +361,72 @@ public class JDRegisterAndLogin {
 		// 发送请求
 		ResponseRet responseRet = requestHandler.GetHttpResponse_generalMethod(requestHandler,
 				"loginSuccessRedirectLocation");
-		requestHandler.GetHttpResponse_generalMethod(requestHandler, "loginSuccessRedirectLocation");
+		//requestHandler.GetHttpResponse_generalMethod(requestHandler, "loginSuccessRedirectLocation");
 		// 解析请求
 	}
+	
+	public Map<String,Object> fetchSlidingImage(final HttpClientRequestHandler requestHandler) {
+		//String requestUrl = "https://iv.jd.com/slide/g.html?appId=1604ebb2287&scene=login&product=embed&e=&callback=jsonp_06453355395327742";
+		StringBuilder sb = new StringBuilder("https://iv.jd.com/slide/g.html")
+				               .append("?")
+				               .append("appId=")
+				               .append("1604ebb2287")
+				               .append("&scene=")
+				               .append("login")
+				               .append("&product=")
+				               .append("embed")
+				               .append("&e=")
+				               .append("&callback=")
+				               .append("jsonp_")
+				               .append(RandomNumberGenerator.generateRandomStringBeginWithZero(17));
+		String requestUrl = new String(sb);
+		
+		RequestBuilder requestBuilder = RequestBuilder.get()// Get 方法
+				                        .setUri(requestUrl);// 设置访问的Uri
+		// 设置访问的Header
+		HttpRequestHeaderGenerator.setFetchSlidingImageHeaders(requestBuilder, "https://passport.jd.com/new/login.aspx");
+		// 生成访问方法
+		HttpUriRequest requestMethod = requestBuilder.build();
+		// 保存访问方法
+		requestHandler.setRequestMethod(requestMethod);
+		// 发送请求
+		ResponseRet responseRet = requestHandler.GetHttpResponse_generalMethod(requestHandler,
+						                        "fetchSlidingImage");
+		//获取responseString
+		String responseString = null;
+		try {
+			responseString = new String(responseRet.getRetContent(),responseRet.getContentEncoding());
+		} catch (UnsupportedEncodingException e) {
+			//log.error("parse responseString error");
+			e.printStackTrace();
+		}
+		if(null==responseString) {
+			return null;
+		}
+		String jsonString = RegexUtils.findString(responseString, "(?<=\\().*?(?=\\))");
+		Map<String,Object> slidingImageMap = JsonUtils.json2Map(jsonString);
+		MapUtils.traversalMap(slidingImageMap);
+		
+		String bgBase64String = String.valueOf(slidingImageMap.get("bg"));
+		String patchBase64String = String.valueOf(slidingImageMap.get("patch"));
+		long currentTime = System.currentTimeMillis();
+		String bgImgPath = DIRECTORY_PATH+"bgImg_"+currentTime+".png";
+		String patchImgPath = DIRECTORY_PATH+"patchImg_"+currentTime+".png";
+		
+		try {
+			FileUtils.writeByteArrayToFile(new File(bgImgPath), Base64.getDecoder().decode(bgBase64String.substring(bgBase64String.indexOf(",")+1)));
+			FileUtils.writeByteArrayToFile(new File(patchImgPath), Base64.getDecoder().decode(patchBase64String.substring(patchBase64String.indexOf(",")+1)));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		slidingImageMap.put("bgImgPath", bgImgPath);
+		slidingImageMap.put("patchBase64String", patchBase64String);
+		return slidingImageMap;	
+	}
+	
+	
+	
 
 }

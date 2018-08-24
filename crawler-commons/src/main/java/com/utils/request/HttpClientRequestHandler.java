@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
  * @date 2018年1月19日
  */
 public class HttpClientRequestHandler {
-	public static final String FILE_PATH = "f:/testFolder/simulateLogin/xiaomi/";
+	public static final String FILE_PATH = "f:/testFolder/simulateLogin/loginJD/";
 	public static final boolean DEBUG = true;
 	
 	private HttpClient httpClient;
@@ -568,11 +568,16 @@ public class HttpClientRequestHandler {
 				// 消息体的返回类型 Content-Type: text/html; charset=gbk
 				// 返回Json类型 Content-Type: application/json
 				// 返回图片类型 Content-Type: image/png
-				String contentValueValue = response.getFirstHeader("Content-Type").getValue();
+				Header contentTypeHeader = response.getFirstHeader("Content-Type");
+				String contentValueValue = null;
+				if(null!=contentTypeHeader) {
+				   contentValueValue = contentTypeHeader.getValue();
+				}
 				// 返回的消息体类型 默认为文本类型
 				String contentType = "hext/html";
 				// 返回的消息体编码 默认"GBK"
 				String contentEncoding = "UTF-8";
+				if(null!=contentValueValue) {
 				int ctLocation = contentValueValue.indexOf(";");
 				int ceLocation = contentValueValue.indexOf("=");
 				// 没有";"
@@ -590,6 +595,7 @@ public class HttpClientRequestHandler {
 					if(-1!=ceLocation) {
 						contentEncoding = contentValueValue.substring(ceLocation + 1);
 					}
+				}
 				}
 				System.out.println("contentType = " + contentType + "----contentEncoding = " + contentEncoding);
 				// 存储到硬盘

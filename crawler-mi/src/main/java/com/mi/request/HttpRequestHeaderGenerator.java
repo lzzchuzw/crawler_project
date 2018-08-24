@@ -71,6 +71,7 @@ public class HttpRequestHeaderGenerator {
 					"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36");
 		}
 	}
+	
 	/**获取所有收货地址
 	 * 设置获取用户收货地址Headers
 	 * @param builder
