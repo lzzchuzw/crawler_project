@@ -63,32 +63,57 @@ public class OpenCVTest {
 		//读入
 		Mat srcMat = Imgcodecs.imread(backImg,0);
 		Mat shapeMat = Imgcodecs.imread(shapeImg, 0);
+
 		Size srcSize = srcMat.size();
 		
 		//临时重写
-		String tmp = "F:/tmp.jpg";
-		String targ = "F:/targ.jpg";
+		String tmp = "F:/tmp.png";
+		String targ = "F:/targ.png";
 		Imgcodecs.imwrite(tmp, srcMat);
 		Imgcodecs.imwrite(targ, shapeMat);
 		//再次读入targ
 		Mat target = Imgcodecs.imread(targ);
 		Mat mTarget = new Mat();
 		Imgproc.cvtColor(target, mTarget, Imgproc.COLOR_BGR2GRAY);
+		
 		Mat m = Mat.ones(mTarget.size(), 0);
+		
+		
 		Mat m2 = new Mat();
 		Core.convertScaleAbs(m, m2, 255, 0);
-		Core.add(m2, mTarget, target);
+		
+		/*for(int i=0;i<m2.height();i++) {
+			for(int j=0;j<m2.width();j++) {
+				double[] val = m2.get(i, j);
+				
+				System.out.println("val["+i+"]["+j+"] = "+val[0]);
+				
+			}
+		}*/
+		
+		
+		//Core.add(m2, mTarget, target);
+		Core.addWeighted(m2, 1, mTarget, -1, 0, target);
+		/*for(int i=0;i<target.height();i++) {
+			for(int j=0;j<target.width();j++) {
+				double[] val = target.get(i, j);
+				
+				System.out.println("val["+i+"]["+j+"] = "+val[0]);
+				
+			}
+		}*/
+		
 		
 		Imgcodecs.imwrite(targ, target);
 		target = Imgcodecs.imread(targ);
 		Mat template = Imgcodecs.imread(tmp);
 		Mat result = new Mat();
-		Imgproc.matchTemplate(target, template, result,Imgproc.TM_CCOEFF_NORMED);
+		Imgproc.matchTemplate(target, template, result,Imgproc.TM_CCOEFF);
 		MinMaxLocResult ret = Core.minMaxLoc(result);
 		Point maxPoint = ret.maxLoc;
 		Point minPoint = ret.minLoc;
 		System.out.println("maxPoint.x = "+maxPoint.x+"---maxPoint.y = "+maxPoint.y);
-		System.out.println("minPoint.x = "+minPoint.x+"---minPoint.y = "+minPoint.y);
+		//System.out.println("minPoint.x = "+minPoint.x+"---minPoint.y = "+minPoint.y);
 		
 	}
 	
