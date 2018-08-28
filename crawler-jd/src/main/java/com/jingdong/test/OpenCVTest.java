@@ -63,7 +63,9 @@ public class OpenCVTest {
 		//读入
 		Mat srcMat = Imgcodecs.imread(backImg,0);
 		Mat shapeMat = Imgcodecs.imread(shapeImg, 0);
-
+		
+		System.out.println("srcMat.width = "+srcMat.width()+"----srcMat.high = "+srcMat.height());
+		System.out.println("shapeMat.width = "+shapeMat.width()+"----shapeMat.high = "+shapeMat.height());
 		Size srcSize = srcMat.size();
 		
 		//临时重写
@@ -78,7 +80,7 @@ public class OpenCVTest {
 		
 		Mat m = Mat.ones(mTarget.size(), 0);
 		
-		
+		//System.out.println("m.w = "+m.width()+"---m.h = "+m.height());
 		Mat m2 = new Mat();
 		Core.convertScaleAbs(m, m2, 255, 0);
 		
@@ -167,6 +169,7 @@ public class OpenCVTest {
 	
 		
 	}
-
+	
+ 
 
 }
