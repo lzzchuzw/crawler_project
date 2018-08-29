@@ -78,7 +78,7 @@ public class CalculateTraceArray {
         	sb.append(t);
         }
        // System.out.println("d = "+d+"---result: "+sb.toString());
-        System.out.println("st----ret = "+sb.toString());
+        //System.out.println("st----ret = "+sb.toString());
         return new String(sb);
 	}
 	
@@ -90,7 +90,7 @@ public class CalculateTraceArray {
 		String s = new String(sb)+a;
 		//System.out.println(sb.toString());
 		s = s.substring(s.length()-b);
-		System.out.println("pi----ret = "+s);
+		//System.out.println("pi----ret = "+s);
 		return s;
 	}
 	
@@ -101,7 +101,7 @@ public class CalculateTraceArray {
 			a += d>0?"1":"0";
 		}
 		a += pi(e,c);
-		System.out.println("pm----ret = "+a);
+		//System.out.println("pm----ret = "+a);
 		return a;
 	}
 	
@@ -125,7 +125,7 @@ public class CalculateTraceArray {
         for(String t:b) {
         	sb.append(t);
         }
-        System.out.println("gc----ret = "+sb.toString());
+        //System.out.println("gc----ret = "+sb.toString());
         return new String(sb);
 	}
 	

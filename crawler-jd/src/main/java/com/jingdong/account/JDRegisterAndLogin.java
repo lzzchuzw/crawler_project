@@ -516,7 +516,7 @@ public class JDRegisterAndLogin {
 	               .append("&product=")
 	               .append("embed")
 	               .append("&e=")
-	               //.append("TRFP5ERVTRJMQSKSWQ2Y6KEY6VKRU3OVC5YKIDCOZCIXEMPXS7UWGERCYCIBXGIGUA2EHUY4H6IMHF2GK3WI6FGHXY")
+	               .append("TRFP5ERVTRJMQSKSWQ2Y6KEY6VKRU3OVC5YKIDCOZCIXEMPXS7UWGERCYCIBXGIGUA2EHUY4H6IMHF2GK3WI6FGHXY")
 	               .append("&s=")
 	               .append(String.valueOf(slidingImageMap.get("jdtdmapSessionId")))
 	               .append("&callback=")

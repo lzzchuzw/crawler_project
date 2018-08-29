@@ -84,5 +84,21 @@ public class RandomNumberGenerator {
 
 		return s;
 	}
+	/**
+	 * 
+	* @Title: generateRandomNumBetweenBounday
+	* @Description: 随机产生介于min和max之间的整数
+	* @param min
+	* @param max
+	* @return int
+	* @author leisure
+	* @date 2018年8月29日下午3:31:01
+	 */
+	public static int generateRandomNumBetweenBounday(int min,int max) {
+		Random random = new Random();
+		int ret = random.nextInt(max-min+1)+min;
+		//System.out.println("min = "+min+"---max = "+max+"--ret = "+ret);
+		return ret;
+	}
 
 }

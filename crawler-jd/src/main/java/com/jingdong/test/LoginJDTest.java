@@ -68,7 +68,7 @@ public class LoginJDTest {
 		Point maxPoint = OpencvHandler.matchTemplate(String.valueOf(slidingImageMap.get("bgImgPath")), String.valueOf(slidingImageMap.get("patchImgPath")));
 		//GenerateTraceArray
 		//CalculateTraceArray
-		String d = CalculateTraceArray.gc(GenerateTraceArray.generateArray((int)maxPoint.x, (int)maxPoint.y, 42));
+		String d = CalculateTraceArray.gc(GenerateTraceArray.generateArray((int)maxPoint.x, (int)maxPoint.y, 35));
 		System.out.println("d = "+d);
 		String s = jdRegisterAndLogin.getJdtdmapSessionId(requestHandler);
 		System.out.println("s = "+s);
