@@ -2,10 +2,12 @@ package com.jingdong.test;
 
 import java.util.Map;
 
+import org.opencv.core.Point;
+
 import com.jingdong.account.JDAccount;
 import com.jingdong.account.JDAccountWrapper;
 import com.jingdong.account.JDRegisterAndLogin;
-
+import com.jingdong.image.OpencvHandler;
 import com.utils.map.MapUtils;
 import com.utils.request.HttpClientRequestHandler;
 
@@ -58,7 +60,22 @@ public class LoginJDTest {
 		JDRegisterAndLogin jdRegisterAndLogin = new JDRegisterAndLogin();
 		Map<String, Object> visitJDLoginHomePageMap = jdRegisterAndLogin.visitJDLoginHomePage(jdAccountWrapper);
 		MapUtils.traversalMap(visitJDLoginHomePageMap);
-		jdRegisterAndLogin.fetchSlidingImage(requestHandler);
+		//requestHandler.getContext().getCookieStore().getCookies();
+		Map<String,Object> slidingImageMap = jdRegisterAndLogin.fetchSlidingImage(requestHandler);
+		System.out.println("c = "+slidingImageMap.get("challenge"));
+		//System.out.println("bgImgPath = "+slidingImageMap.get("bgImgPath")+"---patchImgPath = "+slidingImageMap.get("patchImgPath"));
+		//获取水平移动距离
+		Point maxPoint = OpencvHandler.matchTemplate(String.valueOf(slidingImageMap.get("bgImgPath")), String.valueOf(slidingImageMap.get("patchImgPath")));
+		//GenerateTraceArray
+		//CalculateTraceArray
+		String d = CalculateTraceArray.gc(GenerateTraceArray.generateArray((int)maxPoint.x, (int)maxPoint.y, 42));
+		System.out.println("d = "+d);
+		String s = jdRegisterAndLogin.getJdtdmapSessionId(requestHandler);
+		System.out.println("s = "+s);
+		slidingImageMap.put("traceValueD", d);
+		//slidingImageMap.put("jdtdmapSessionId", s);
+		slidingImageMap.put("jdtdmapSessionId", s);
+		jdRegisterAndLogin.submitSlidingVerification(requestHandler, slidingImageMap);
 		//jdRegisterAndLogin.checkAuthCode(jdAccountWrapper);
 		//jdRegisterAndLogin.fetchAuthCode(jdAccountWrapper);
 		//jdRegisterAndLogin.loginJD(jdAccountWrapper,visitJDLoginHomePageMap);

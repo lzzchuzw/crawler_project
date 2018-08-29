@@ -498,6 +498,49 @@ public class HttpRequestHeaderGenerator {
 					"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36");
 		}
 	}
+	/**
+         * 获取JdtdmapSessionId,它是用于提交滑动模块验证的参数
+     * @param builder 
+     */
+	public static void setgetJdtdmapSessionIdHeaders(final RequestBuilder builder) {
+		if (null != builder) {
+			builder.setHeader("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+			builder.setHeader("Accept-Encoding", "gzip, deflate, br");
+			builder.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+			//builder.setHeader("Cache-Control", "no-cache");
+			builder.setHeader("Connection", "keep-alive");
+			builder.setHeader("Host", "seq.jd.com");						
+			builder.setHeader("Upgrade-Insecure-Requests", "1");			
+			builder.setHeader("User-Agent",
+					"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36");
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: setFetchSlidingImageHeaders
+	* @Description: 设置京东登录提交滑动模块验证Header
+	* @param builder
+	* @param referer void
+	* @author leisure
+	* @date 2018年8月24日上午9:25:02
+	 */
+	public static void setsubmitSlidingVerificationHeaders(final RequestBuilder builder,String referer) {
+		if (null != builder) {
+			builder.setHeader("Accept", "*/*");
+			builder.setHeader("Accept-Encoding", "gzip, deflate, br");
+			builder.setHeader("Accept-Language", "zh-CN,zh;q=0.9");
+			
+			builder.setHeader("Connection", "keep-alive");
+			
+			builder.setHeader("Host", "iv.jd.com");
+			
+			builder.setHeader("Referer", referer);
+			
+			builder.setHeader("User-Agent",
+					"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.119 Safari/537.36");
+		}
+	}
 	
 	/*public static void setFetchSlidingImageHeaders(final RequestBuilder builder,String url) {
 		if(null!=builder && null!=url) {

@@ -364,9 +364,21 @@ public class JDRegisterAndLogin {
 		//requestHandler.GetHttpResponse_generalMethod(requestHandler, "loginSuccessRedirectLocation");
 		// 解析请求
 	}
-	
+	/**
+	 * 
+	* @Title: fetchSlidingImage
+	* @Description: 获取京东滑动验证码的背景图和小滑块图
+	* @param requestHandler
+	* @return Map<String,Object>
+	* @author leisure
+	* @date 2018年8月29日下午1:49:15
+	 */
 	public Map<String,Object> fetchSlidingImage(final HttpClientRequestHandler requestHandler) {
 		//String requestUrl = "https://iv.jd.com/slide/g.html?appId=1604ebb2287&scene=login&product=embed&e=&callback=jsonp_06453355395327742";
+		if(null==requestHandler) {
+			return null;
+		}
+			
 		StringBuilder sb = new StringBuilder("https://iv.jd.com/slide/g.html")
 				               .append("?")
 				               .append("appId=")
@@ -420,13 +432,124 @@ public class JDRegisterAndLogin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		//滑块背景图和小滑块图的路径
 		slidingImageMap.put("bgImgPath", bgImgPath);
-		slidingImageMap.put("patchBase64String", patchBase64String);
+		slidingImageMap.put("patchImgPath", patchImgPath);
 		return slidingImageMap;	
 	}
-	
-	
-	
+	/**
+	 * 
+	* @Title: getJdtdmapSessionId
+	* @Description: 获取JdtdmapSessionId,它是用于提交滑动模块验证的参数
+	* @param requestHandler
+	* @return String
+	* @author leisure
+	* @date 2018年8月29日下午2:18:10
+	 */
+	public String getJdtdmapSessionId(final HttpClientRequestHandler requestHandler) {
+		if(null==requestHandler) {
+			return null;
+		}
+		String jdtdmapSessionId = "";
+		//Request URL: https://seq.jd.com/jseqf.html?bizId=passport_jd_com_login_pc&platform=js&version=1
+		StringBuilder sb = new StringBuilder("https://seq.jd.com/jseqf.html") 
+				               .append("?")
+				               .append("bizId=")
+				               .append("passport_jd_com_login_pc")
+				               .append("&platform=")
+				               .append("js")
+				               .append("&version=")
+				               .append("1");
+        String requestUrl = new String(sb);
+		
+		RequestBuilder requestBuilder = RequestBuilder.get()// Get 方法
+				                        .setUri(requestUrl);// 设置访问的Uri
+		// 设置访问的Header
+		HttpRequestHeaderGenerator.setgetJdtdmapSessionIdHeaders(requestBuilder);
+		// 生成访问方法
+		HttpUriRequest requestMethod = requestBuilder.build();
+		// 保存访问方法
+		requestHandler.setRequestMethod(requestMethod);
+		// 发送请求
+		ResponseRet responseRet = requestHandler.GetHttpResponse_generalMethod(requestHandler,
+						                        "getJdtdmapSessionId");
+		//获取responseString
+		String responseString = null;
+		try {
+			responseString = new String(responseRet.getRetContent(),responseRet.getContentEncoding());
+		} catch (UnsupportedEncodingException e) {
+			//log.error("parse responseString error");
+			e.printStackTrace();
+		}
+		if(null==responseString) {
+			return null;
+		}
+		jdtdmapSessionId = RegexUtils.findString(responseString, "(?<=_jdtdmap_sessionId=\").*?(?=\";)");
+		return jdtdmapSessionId;	
+	}
+	/**
+	 * 
+	* @Title: submitSlidingVerification
+	* @Description: 提交滑动模块验证
+	* @param requestHandler
+	* @param slidingImageMap
+	* @return Map<String,Object>
+	* @author leisure
+	* @date 2018年8月29日下午2:29:43
+	 */
+	public Map<String,Object> submitSlidingVerification(final HttpClientRequestHandler requestHandler,Map<String,Object> slidingImageMap){
+		if (null == requestHandler || null == slidingImageMap || 0 == slidingImageMap.size()) {
+			return null;
+		}
+		StringBuilder sb = new StringBuilder("https://iv.jd.com/slide/s.html")
+	               .append("?")
+	               .append("d=")
+	               .append(String.valueOf(slidingImageMap.get("traceValueD")))
+	               .append("&c=")
+	               .append(String.valueOf(slidingImageMap.get("challenge")))
+	               .append("&w=")
+	               .append("272")
+	                .append("&appId=")
+	                .append("1604ebb2287")
+	                .append("&scene=")
+	                .append("login")
+	               .append("&product=")
+	               .append("embed")
+	               .append("&e=")
+	               //.append("TRFP5ERVTRJMQSKSWQ2Y6KEY6VKRU3OVC5YKIDCOZCIXEMPXS7UWGERCYCIBXGIGUA2EHUY4H6IMHF2GK3WI6FGHXY")
+	               .append("&s=")
+	               .append(String.valueOf(slidingImageMap.get("jdtdmapSessionId")))
+	               .append("&callback=")
+	               .append("jsonp_")
+	               .append(RandomNumberGenerator.generateRandomStringBeginWithZero(17));
+        String requestUrl = new String(sb);
+        System.out.println("submitSlidingVerification---url = "+requestUrl);
+        RequestBuilder requestBuilder = RequestBuilder.get()// Get 方法
+                .setUri(requestUrl);// 设置访问的Uri
+       // 设置访问的Header
+ 		HttpRequestHeaderGenerator.setsubmitSlidingVerificationHeaders(requestBuilder, "https://passport.jd.com/new/login.aspx");
+ 		// 生成访问方法
+ 		HttpUriRequest requestMethod = requestBuilder.build();
+ 		// 保存访问方法
+ 		requestHandler.setRequestMethod(requestMethod);
+ 		// 发送请求
+ 		ResponseRet responseRet = requestHandler.GetHttpResponse_generalMethod(requestHandler,
+ 						                        "submitSlidingVerification");
+ 		//获取responseString
+ 		String responseString = null;
+ 		try {
+ 			responseString = new String(responseRet.getRetContent(),responseRet.getContentEncoding());
+ 		} catch (UnsupportedEncodingException e) {
+ 			//log.error("parse responseString error");
+ 			e.printStackTrace();
+ 		}
+ 		if(null==responseString) {
+ 			return null;
+ 		}
+ 		String jsonString = RegexUtils.findString(responseString, "(?<=\\().*?(?=\\))");
+ 		Map<String,Object> retMap = JsonUtils.json2Map(jsonString);
+		MapUtils.traversalMap(retMap);
+		return slidingImageMap;
+	}
 
 }

@@ -13,11 +13,14 @@ import org.opencv.core.Core.MinMaxLocResult;
 import org.opencv.imgcodecs.Imgcodecs;
 import org.opencv.imgproc.Imgproc;
 
+import com.jingdong.image.OpencvHandler;
+
 public class OpenCVTest {
 	public static void main( String[] args ) {
 		//imageShapeTest();
-		matchTemplateTest();
 		//matchTemplateTest();
+		//matchTemplateTest();
+		OpencvHandler.matchTemplate("E:/WebLogs/loginJD/slidingImg/bgImg_1535518376696.png", "E:/WebLogs/loginJD/slidingImg/patchImg_1535518376696.png");
 	}
 	
 	public static void enTest() {
@@ -115,7 +118,7 @@ public class OpenCVTest {
 		Point maxPoint = ret.maxLoc;
 		Point minPoint = ret.minLoc;
 		System.out.println("maxPoint.x = "+maxPoint.x+"---maxPoint.y = "+maxPoint.y);
-		//System.out.println("minPoint.x = "+minPoint.x+"---minPoint.y = "+minPoint.y);
+		System.out.println("minPoint.x = "+minPoint.x+"---minPoint.y = "+minPoint.y);
 		
 	}
 	
