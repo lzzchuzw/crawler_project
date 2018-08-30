@@ -88,7 +88,8 @@ public class GenerateTraceArray {
 		//最后的稳定值  比初始值大20-30左右
 		long lastValue = initValue+RandomNumberGenerator.generateRandomNumBetweenBounday(20, 30);
 		//第一个值
-		y[index] = RandomNumberGenerator.generateRandomNumBetweenBounday(initValue, initValue+12);
+		//y[index] = RandomNumberGenerator.generateRandomNumBetweenBounday(initValue, initValue+12);
+		y[index] = 299;
 		index = index+2;
 		//从第三个值开始到倒数第8个
 		

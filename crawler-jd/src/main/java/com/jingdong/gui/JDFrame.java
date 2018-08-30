@@ -2,10 +2,13 @@ package com.jingdong.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,6 +36,7 @@ public class JDFrame extends JFrame{
 	private JPanel mPanel;
 	private JScrollPane mScrollPane;
 	private JTable mTable;
+	private JButton loginButton;
 	
 	public JDFrame() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,10 +68,22 @@ public class JDFrame extends JFrame{
     	mScrollPane = new JScrollPane();
     	mScrollPane.setViewportView(mTable);
     	
+    	
+    	//login button
+    	loginButton = new JButton("login");
+    	loginButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+    		
+    	});
+    	
     	mPanel = new JPanel();
         mPanel.add(mScrollPane);
-       /* mPanel.add(loginButton);
-        mPanel.add(rushPurchaseButton);*/
+        mPanel.add(loginButton);
+        //mPanel.add(rushPurchaseButton);
     	mPanel.setOpaque(true);
     	
     	

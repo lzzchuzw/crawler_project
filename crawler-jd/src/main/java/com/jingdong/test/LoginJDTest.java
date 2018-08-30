@@ -67,8 +67,17 @@ public class LoginJDTest {
 		//获取水平移动距离
 		Point maxPoint = OpencvHandler.matchTemplate(String.valueOf(slidingImageMap.get("bgImgPath")), String.valueOf(slidingImageMap.get("patchImgPath")));
 		//GenerateTraceArray
+		long[][] c = GenerateTraceArray.generateArray((int)maxPoint.x, (int)maxPoint.y, 35);
+		long time = c[c.length-1][2]-c[0][2];
+		System.out.println("time = "+time);
+		try {
+			Thread.sleep(time);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//CalculateTraceArray
-		String d = CalculateTraceArray.gc(GenerateTraceArray.generateArray((int)maxPoint.x, (int)maxPoint.y, 35));
+		String d = CalculateTraceArray.gc(c);
 		System.out.println("d = "+d);
 		String s = jdRegisterAndLogin.getJdtdmapSessionId(requestHandler);
 		System.out.println("s = "+s);
