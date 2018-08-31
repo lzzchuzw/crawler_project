@@ -125,5 +125,6 @@
 		<module>crawler-tmall</module>
 		<module>crawler-suning</module>
 		<module>crawler-vmall</module>
+		<module>crawler-yhd</module>
 	</modules>
 </project>
