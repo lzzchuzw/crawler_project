@@ -20,7 +20,9 @@ public class OpenCVTest {
 		//imageShapeTest();
 		//matchTemplateTest();
 		//matchTemplateTest();
-		OpencvHandler.matchTemplate("E:/WebLogs/loginJD/slidingImg/bgImg_1535518376696.png", "E:/WebLogs/loginJD/slidingImg/patchImg_1535518376696.png");
+		//OpencvHandler.matchTemplate("E:/WebLogs/loginJD/slidingImg/bgImg_1535518376696.png", "E:/WebLogs/loginJD/slidingImg/patchImg_1535518376696.png");
+	   long t = System.currentTimeMillis();
+	   System.out.println(t);
 	}
 	
 	public static void enTest() {

@@ -388,7 +388,7 @@ public class BrowserComposite extends Composite {
     	Shell shell = new Shell(display);
     	//Shell frame = new Shell(SWT.SHELL_TRIM);
     	BrowserComposite bc = new BrowserComposite(shell,1);
-    	/*Shell mShell = new Shell(bc.getDisplay());
+    	Shell mShell = new Shell(bc.getDisplay());
     	mShell.open();
     	while(!mShell.isDisposed()) {
     		   // process the next event, wait when none available
@@ -397,7 +397,7 @@ public class BrowserComposite extends Composite {
     		   }
     	}
     	display.dispose();  // must always clean up
-*/    	
+    	
     	
 	}
 }
