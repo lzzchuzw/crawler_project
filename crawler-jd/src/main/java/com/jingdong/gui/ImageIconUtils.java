@@ -47,10 +47,12 @@ public class ImageIconUtils {
     }*/
     
     public static ImageIcon createImageIconByFilePath(String imageFilePath) {
+    	ImageIcon imageIcon = new ImageIcon();
         if(null==imageFilePath) {
-        	return null;
+        	
+        	return imageIcon;
         }
-        ImageIcon imageIcon = new ImageIcon(imageFilePath);
+        imageIcon = new ImageIcon(imageFilePath);
         return imageIcon;
     }
     

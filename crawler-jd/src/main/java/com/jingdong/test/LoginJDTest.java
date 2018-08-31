@@ -8,6 +8,7 @@ import com.jingdong.account.JDAccount;
 import com.jingdong.account.JDAccountWrapper;
 import com.jingdong.account.JDRegisterAndLogin;
 import com.jingdong.image.OpencvHandler;
+import com.jingdong.initialize.JDAccountInitialize;
 import com.utils.map.MapUtils;
 import com.utils.request.HttpClientRequestHandler;
 
@@ -20,8 +21,8 @@ import com.utils.request.HttpClientRequestHandler;
 public class LoginJDTest {
 	public static void main(String[] args) {
 		//LoginJDWithOutAuthCode();
-		//JDAccountInit();
-		JDMethodTest();
+		JDAccountInit();
+		//JDMethodTest();
 	}
 	/**
 	 * 测试京东不输入验证码登录及登录后相关操作
@@ -45,8 +46,8 @@ public class LoginJDTest {
 	}
 	
 	public static void JDAccountInit() {
-		/*JDAccountInitialize jdai = new JDAccountInitialize();
-		jdai.parseJDAccountInfoFromText(JDAccountInitialize.jdAccountFilePath);*/
+		JDAccountInitialize jdai = new JDAccountInitialize();
+		jdai.parseJDAccountInfoFromText(JDAccountInitialize.jdAccountFilePath);
 	}
 	
 	public static void JDMethodTest() {
