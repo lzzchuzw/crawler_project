@@ -60,6 +60,9 @@ public class JDRegisterAndLogin {
 		MapUtils.traversalMap(visitJDLoginHomePageMap);
 		// 保存到requestHandler中
 		requestHandler.getParseMap().put("visitJDLoginHomePageMap", visitJDLoginHomePageMap);
+		System.out.println("visitJDLoginHomePage");
+		//MapUtils.traversalMap(visitJDLoginHomePageMap);
+		jdAccountWrapper.setRequestHandler(requestHandler);
 		return visitJDLoginHomePageMap;
 	}
 	
@@ -131,6 +134,7 @@ public class JDRegisterAndLogin {
 			}
 		}
 		System.out.println(isNeedAuthCode ? "true" : "false");
+		jdAccountWrapper.setRequestHandler(requestHandler);
 		return isNeedAuthCode;
 	}
 	
@@ -226,6 +230,7 @@ public class JDRegisterAndLogin {
 		ResponseRet responseRet = requestHandler.GetHttpResponse_generalMethod(requestHandler, "fetchAuthCode");
 		// 获取到验证码图片,处理验证码图片
 		requestHandler.setAuthCodeImgPath(responseRet.getFilePath());
+		jdAccountWrapper.setRequestHandler(requestHandler);
 	}
 
 	/**
@@ -401,6 +406,7 @@ public class JDRegisterAndLogin {
 
 		}
 		Map<String, Object> loginJDMap = JsonUtils.json2Map(jsonString);
+		jdAccountWrapper.setRequestHandler(requestHandler);
 		handlerLoginJDResult(requestHandler, loginJDMap);
 		return loginJDMap;
 

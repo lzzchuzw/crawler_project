@@ -47,7 +47,7 @@ public class LoginJDTest {
 	
 	public static void JDAccountInit() {
 		JDAccountInitialize jdai = new JDAccountInitialize();
-		jdai.parseJDAccountInfoFromText(JDAccountInitialize.jdAccountFilePath);
+		jdai.parseJDAccountInfoFromText(JDAccountInitialize.jdAccountFilePath,false);
 	}
 	
 	public static void JDMethodTest() {

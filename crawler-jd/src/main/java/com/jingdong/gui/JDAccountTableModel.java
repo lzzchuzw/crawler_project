@@ -55,10 +55,12 @@ public class JDAccountTableModel extends AbstractTableModel{
 				JDRegisterAndLogin jdRegisterAndLogin = new JDRegisterAndLogin();
 				Map<String, Object> visitJDLoginHomePageMap = jdRegisterAndLogin.visitJDLoginHomePage(jdAccountWrapper);
 				MapUtils.traversalMap(visitJDLoginHomePageMap);
+				
 				boolean isCheckCode = jdRegisterAndLogin.checkAuthCode(jdAccountWrapper);
 				log.info("isCheckCode = "+isCheckCode);
 				System.out.println("isCheckCode = "+isCheckCode);
 				HttpClientRequestHandler requestHandler = jdAccountWrapper.getRequestHandler();
+				requestHandler.getParseMap().put("visitLoginHomePageMap", visitJDLoginHomePageMap);
 				String authCodePath = "";
 				if(isCheckCode) {
 					//滑动模块
@@ -148,6 +150,32 @@ public class JDAccountTableModel extends AbstractTableModel{
 	public void setValueAt(Object value, int row, int col) {
 	     data.get(row).set(col,value);
 	     fireTableCellUpdated(row, col);
+	     JDAccountWrapper jdAccountWrapper = jdAccountWrapperList.get(row);
+	     
+	     if(null!=jdAccountWrapper) {
+	    	 JDAccount jdAccount = jdAccountWrapper.getJdAccount();
+	    	 switch(col) {
+	    	    case 1://用户名	    	    	
+	    	    	jdAccount.setUserName(String.valueOf(value).trim());
+	    	    	jdAccountWrapper.setJdAccount(jdAccount);
+	    		    break;
+	    	    case 2://登录密码
+	    	    	jdAccount.setLoginPassWd(String.valueOf(value).trim());
+	    	    	jdAccountWrapper.setJdAccount(jdAccount);
+	    	    	break;
+	    	    case 3:
+	    	    	HttpClientRequestHandler requestHandler = jdAccountWrapper.getRequestHandler();
+	    	    	Map<String,Object> visitJDLoginHomePageMap = requestHandler.getParseMap().get("visitJDLoginHomePageMap");
+	    	    	visitJDLoginHomePageMap.put("authcode", String.valueOf(value).trim());
+	    	    	requestHandler.getParseMap().put("visitJDLoginHomePageMap", visitJDLoginHomePageMap);
+	    	    	jdAccountWrapper.setRequestHandler(requestHandler);
+	    	    	break;
+	    	    default:
+	    	    	break;
+	    	 }
+	    	   
+	    	 
+	     }
 	}
 	/*
 	* JTable uses this method to determine the default renderer/
