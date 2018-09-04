@@ -105,6 +105,7 @@ public class JDAccountTableModel extends AbstractTableModel{
 				   rowData.add(new ImageIcon());
 				}
 				rowData.add(jdAccountWrapper.getAccountState());//账号登录状态	
+				rowData.add("准备抢购");
 				data.add(rowData);
 			}
 		}
@@ -124,7 +125,7 @@ public class JDAccountTableModel extends AbstractTableModel{
 		this.columnNames.add("验证码");		
 		this.columnNames.add("验证码图片");
 		this.columnNames.add("登录状态");
-		
+		this.columnNames.add("抢购状态");
 	}
 	
 	
@@ -170,6 +171,9 @@ public class JDAccountTableModel extends AbstractTableModel{
 	    	    	requestHandler.getParseMap().put("visitJDLoginHomePageMap", visitJDLoginHomePageMap);
 	    	    	jdAccountWrapper.setRequestHandler(requestHandler);
 	    	    	break;
+	    	    case 4:
+	    	  
+	    	    	break;
 	    	    default:
 	    	    	break;
 	    	 }
@@ -200,6 +204,30 @@ public class JDAccountTableModel extends AbstractTableModel{
 			return true;
 		}
 		return false;		
+	}
+
+	public List<JDAccountWrapper> getJdAccountWrapperList() {
+		return jdAccountWrapperList;
+	}
+
+	public void setJdAccountWrapperList(List<JDAccountWrapper> jdAccountWrapperList) {
+		this.jdAccountWrapperList = jdAccountWrapperList;
+	}
+
+	public Vector<String> getColumnNames() {
+		return columnNames;
+	}
+
+	public void setColumnNames(Vector<String> columnNames) {
+		this.columnNames = columnNames;
+	}
+
+	public Vector<Vector<Object>> getData() {
+		return data;
+	}
+
+	public void setData(Vector<Vector<Object>> data) {
+		this.data = data;
 	}
 
 }

@@ -46,7 +46,8 @@ public class JDRegisterAndLogin {
 		HttpClientRequestHandler requestHandler = jdAccountWrapper.getRequestHandler();
 		// 设置访问方法GET "https://passport.jd.com/new/login.aspx"
 		RequestBuilder requestBuilder = RequestBuilder.get()// Get 方法
-				.setUri("https://passport.jd.com/new/login.aspx");// 设置访问的Uri
+				//.setUri("https://passport.jd.com/new/login.aspx");// 设置访问的Uri
+				.setUri("https://passport.jd.com/uc/login");// 设置访问的Uri
 		// 设置访问的Header
 		HttpRequestHeaderGenerator.setVisitJDLoginHomePageHeaders(requestBuilder);
 		// 生成访问方法
